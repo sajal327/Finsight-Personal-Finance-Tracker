@@ -1,5 +1,5 @@
-Personal Finance Tracker
-This is a modern, full-stack personal finance tracker web app built with Next.js, PostgreSQL, and Prisma ORM. It enables users to manage transactions, track budgets, and gain insights into their spending—all with a clean, responsive interface. The backend is powered by a scalable PostgreSQL database, and the app is deployed seamlessly on Vercel for fast, reliable access anywhere.
+Finsight – Personal Finance Tracker
+Finsight is a modern, full-stack personal finance tracker web app built with Next.js, PostgreSQL, and Prisma ORM. It enables users to manage transactions, track budgets, and gain insights into their spending—all with a clean, responsive interface. The backend is powered by a scalable PostgreSQL database, and the app is deployed seamlessly on Vercel for fast, reliable access anywhere.
 
 🚀 Features
 Transaction Management:
