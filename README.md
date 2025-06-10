@@ -77,6 +77,8 @@ Set the DATABASE_URL in your Vercel dashboard under Project Settings → Environ
 
 📊 Screenshots
 <img width="321" alt="Screenshot 2025-06-10 at 9 56 12 PM" src="https://github.com/user-attachments/assets/2432792f-3876-4509-9d7b-7b124246a89c" />
+<img width="1074" alt="Screenshot 2025-06-10 at 9 57 46 PM" src="https://github.com/user-attachments/assets/3ac7cbe8-3649-4698-9099-93864e5676ab" />
+
 
 
 🤝 Contributing
