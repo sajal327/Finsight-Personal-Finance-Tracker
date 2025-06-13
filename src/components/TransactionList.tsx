@@ -32,12 +32,37 @@ export default function TransactionList({
 }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await fetch("/api/transactions");
+  //       const data = await res.json();
+  //       setTransactions(data);
+  //     } catch (error) {
+  //       toast.error("Failed to fetch transactions.");
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [refresh]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await fetch("/api/transactions");
         const data = await res.json();
-        setTransactions(data);
+        console.log("Fetched transactions:", data);
+
+        // Adjust here if API returns object with transactions property
+        if (Array.isArray(data)) {
+          setTransactions(data);
+        } else if (Array.isArray(data.transactions)) {
+          setTransactions(data.transactions);
+        } else {
+          setTransactions([]);
+          toast.error("Unexpected data format from API");
+        }
       } catch (error) {
         toast.error("Failed to fetch transactions.");
         console.error(error);

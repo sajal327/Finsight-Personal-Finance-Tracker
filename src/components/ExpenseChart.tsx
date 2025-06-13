@@ -30,12 +30,33 @@ export default function ExpenseChart({ refresh }: { refresh: boolean }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     const res = await fetch("/api/transactions");
+  //     const data = await res.json();
+  //     setTransactions(data);
+  //     setLoading(false);
+  //   };
+  //   fetchData();
+  // }, [refresh]);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await fetch("/api/transactions");
-      const data = await res.json();
-      setTransactions(data);
+      try {
+        const res = await fetch("/api/transactions");
+        const data = await res.json();
+
+        if (Array.isArray(data)) {
+          setTransactions(data);
+        } else if (Array.isArray(data.transactions)) {
+          setTransactions(data.transactions);
+        } else {
+          setTransactions([]);
+        }
+      } catch (error) {
+        setTransactions([]);
+      }
       setLoading(false);
     };
     fetchData();

@@ -46,13 +46,34 @@ export default function DashboardStats({ refresh }: { refresh: boolean }) {
     overBudget: [],
   });
 
+  // useEffect(() => {
+  //   const fetchStats = async () => {
+  //     const res = await fetch("/api/transactions");
+  //     const data = await res.json();
+
+  //     const now = new Date();
+  //     const monthly = data.filter((t: any) => {
+  //       const date = new Date(t.date);
+  //       return (
+  //         date.getMonth() === now.getMonth() &&
+  //         date.getFullYear() === now.getFullYear()
+  //       );
+  //     });
+
   useEffect(() => {
     const fetchStats = async () => {
       const res = await fetch("/api/transactions");
       const data = await res.json();
+      console.log("Fetched data:", data);
+
+      const transactions = Array.isArray(data)
+        ? data
+        : Array.isArray(data.transactions)
+        ? data.transactions
+        : [];
 
       const now = new Date();
-      const monthly = data.filter((t: any) => {
+      const monthly = transactions.filter((t: any) => {
         const date = new Date(t.date);
         return (
           date.getMonth() === now.getMonth() &&
@@ -91,7 +112,11 @@ export default function DashboardStats({ refresh }: { refresh: boolean }) {
 
       setInsights({ topCategory: top.category, overBudget });
 
-      const sorted = [...data].sort(
+      // const sorted = [...data].sort(
+      //   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      // );
+      // setRecentTransactions(sorted.slice(0, 5));
+      const sorted = [...transactions].sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       );
       setRecentTransactions(sorted.slice(0, 5));

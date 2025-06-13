@@ -15,11 +15,12 @@ const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a2d2ff"];
 export default function CategoryPieChart({ refresh }: { refresh: boolean }) {
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch("/api/transactions");
-      const all = await res.json();
+  const fetchData = async () => {
+    const res = await fetch("/api/transactions");
+    const all = await res.json();
+    console.log("Fetched transactions:", all);
 
+    if (Array.isArray(all)) {
       const grouped = all.reduce((acc: any, curr: any) => {
         acc[curr.category] =
           (acc[curr.category] || 0) + parseFloat(curr.amount);
@@ -31,9 +32,43 @@ export default function CategoryPieChart({ refresh }: { refresh: boolean }) {
         value,
       }));
       setData(formatted);
-    };
-    fetchData();
-  }, [refresh]);
+    } else if (Array.isArray(all.transactions)) {
+      const grouped = all.transactions.reduce((acc: any, curr: any) => {
+        acc[curr.category] =
+          (acc[curr.category] || 0) + parseFloat(curr.amount);
+        return acc;
+      }, {});
+
+      const formatted = Object.entries(grouped).map(([name, value]) => ({
+        name,
+        value,
+      }));
+      setData(formatted);
+    } else {
+      setData([]);
+      // Optionally notify user about unexpected data format
+    }
+  };
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await fetch("/api/transactions");
+  //     const all = await res.json();
+
+  //     const grouped = all.reduce((acc: any, curr: any) => {
+  //       acc[curr.category] =
+  //         (acc[curr.category] || 0) + parseFloat(curr.amount);
+  //       return acc;
+  //     }, {});
+
+  //     const formatted = Object.entries(grouped).map(([name, value]) => ({
+  //       name,
+  //       value,
+  //     }));
+  //     setData(formatted);
+  //   };
+  //   fetchData();
+  // }, [refresh]);
 
   return (
     <div className="mt-8 w-full max-w-4xl mx-auto">
